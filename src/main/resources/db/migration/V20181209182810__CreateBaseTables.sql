@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS Users (
+    id        BIGSERIAL PRIMARY KEY,
+    name      VARCHAR(10) NOT NULL,
+    phone     INT,
+    email     VARCHAR(40)
+);
+CREATE TABLE IF NOT EXISTS Dialogs (
+    id        BIGSERIAL PRIMARY KEY,
+    title     VARCHAR(40)
+);
+
+CREATE TABLE IF NOT EXISTS Messages (
+    id        BIGSERIAL PRIMARY KEY,
+    userId  BIGINT REFERENCES Users(id),
+    dialogId BIGINT REFERENCES Dialogs(id) NOT NULL,
+    date      TIMESTAMP WITH TIME ZONE NOT NULL ,
+    message   TEXT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS UsersDialogs (
+    userId     BIGINT REFERENCES Users(id) ON UPDATE CASCADE,
+    dialogId  BIGINT REFERENCES Dialogs(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START 1;
